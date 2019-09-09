@@ -126,19 +126,19 @@ project "OpenAL"
 		"AL_ALEXT_PROTOTYPES"
 	}
 
-	links
-	{
-		"OpenAL.framework",
-		"AudioUnit.framework",
-		"AudioToolbox.framework",
-		"CoreAudio.framework"
-	}
-
+	
 	filter "system:macosx"
-		systemversion "latest"
+	systemversion "latest"
 		includedirs
 		{
 			"include_mac"
+		}
+		links
+		{
+			"OpenAL.framework",
+			"AudioUnit.framework",
+			"AudioToolbox.framework",
+			"CoreAudio.framework"
 		}
 		files
 		{
@@ -153,9 +153,28 @@ project "OpenAL"
 
 	filter "system:windows"
 		systemversion "latest"
+		defines
+		{
+			-- "_WIN32"
+			"WIN32",
+			"_WINDOWS",
+			"AL_BUILD_LIBRARY",
+			"AL_ALEXT_PROTOTYPES",
+			"_WIN32",
+			"_WIN32_WINNT=0x0502",
+			"_LARGEFILE_SOURCE",
+			"_LARGE_FILES",
+			"_CRT_SECURE_NO_WARNINGS",
+			"NOMINMAX",
+			"strcasecmp=_stricmp",
+			"strncasecmp=_strnicmp",
+		}
 		includedirs
 		{
 			"include_windows"
+		}
+		files
+		{
 		}
 
 	filter "configurations:Debug"
