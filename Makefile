@@ -32,7 +32,7 @@ INCLUDES += -Iinclude -I. -Ial -Ialc -Icommon -Irouter
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-LIBS +=
+LIBS += -framework OpenAL -framework AudioUnit -framework AudioToolbox -framework CoreAudio
 LDDEPS +=
 ALL_LDFLAGS += $(LDFLAGS) -m64
 LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
@@ -86,6 +86,7 @@ OBJECTS += $(OBJDIR)/alu.o
 OBJECTS += $(OBJDIR)/ambdec.o
 OBJECTS += $(OBJDIR)/autowah.o
 OBJECTS += $(OBJDIR)/auxeffectslot.o
+OBJECTS += $(OBJDIR)/base.o
 OBJECTS += $(OBJDIR)/bformatdec.o
 OBJECTS += $(OBJDIR)/biquad.o
 OBJECTS += $(OBJDIR)/bs2b.o
@@ -93,6 +94,7 @@ OBJECTS += $(OBJDIR)/buffer.o
 OBJECTS += $(OBJDIR)/chorus.o
 OBJECTS += $(OBJDIR)/compressor.o
 OBJECTS += $(OBJDIR)/converter.o
+OBJECTS += $(OBJDIR)/coreaudio.o
 OBJECTS += $(OBJDIR)/dedicated.o
 OBJECTS += $(OBJDIR)/distortion.o
 OBJECTS += $(OBJDIR)/dynload.o
@@ -107,12 +109,15 @@ OBJECTS += $(OBJDIR)/fshifter.o
 OBJECTS += $(OBJDIR)/helpers.o
 OBJECTS += $(OBJDIR)/hrtf.o
 OBJECTS += $(OBJDIR)/listener.o
+OBJECTS += $(OBJDIR)/loopback.o
 OBJECTS += $(OBJDIR)/mastering.o
 OBJECTS += $(OBJDIR)/mixer_c.o
+OBJECTS += $(OBJDIR)/mixer_sse.o
 OBJECTS += $(OBJDIR)/mixvoice.o
 OBJECTS += $(OBJDIR)/modulator.o
 OBJECTS += $(OBJDIR)/nfc.o
 OBJECTS += $(OBJDIR)/null.o
+OBJECTS += $(OBJDIR)/null1.o
 OBJECTS += $(OBJDIR)/panning.o
 OBJECTS += $(OBJDIR)/pshifter.o
 OBJECTS += $(OBJDIR)/reverb.o
@@ -125,6 +130,7 @@ OBJECTS += $(OBJDIR)/threads.o
 OBJECTS += $(OBJDIR)/uhjfilter.o
 OBJECTS += $(OBJDIR)/uiddefs.o
 OBJECTS += $(OBJDIR)/vmorpher.o
+OBJECTS += $(OBJDIR)/wave.o
 
 # Rules
 # #############################################
@@ -228,6 +234,21 @@ $(OBJDIR)/alu.o: alc/alu.cpp
 $(OBJDIR)/ambdec.o: alc/ambdec.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/base.o: alc/backends/base.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/coreaudio.o: alc/backends/coreaudio.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/loopback.o: alc/backends/loopback.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/null.o: alc/backends/null.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/wave.o: alc/backends/wave.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/bformatdec.o: alc/bformatdec.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
@@ -264,7 +285,7 @@ $(OBJDIR)/fshifter.o: alc/effects/fshifter.cpp
 $(OBJDIR)/modulator.o: alc/effects/modulator.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/null.o: alc/effects/null.cpp
+$(OBJDIR)/null1.o: alc/effects/null.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/pshifter.o: alc/effects/pshifter.cpp
@@ -295,6 +316,9 @@ $(OBJDIR)/mastering.o: alc/mastering.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/mixer_c.o: alc/mixer/mixer_c.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/mixer_sse.o: alc/mixer/mixer_sse.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/mixvoice.o: alc/mixvoice.cpp

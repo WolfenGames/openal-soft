@@ -64,6 +64,13 @@ project "OpenAL"
 		"alc/bformatdec.h",
 		"alc/bs2b.cpp",
 		"alc/bs2b.h",
+		-- MACOSX
+		"alc/backends/base.cpp",
+		"alc/backends/coreaudio.cpp",
+		"alc/backends/loopback.cpp",
+		"alc/backends/wave.cpp",
+		"alc/backends/null.cpp",
+		-- END MACOSX
 		"alc/compat.h",
 		"alc/converter.cpp",
 		"alc/converter.h",
@@ -106,7 +113,8 @@ project "OpenAL"
 		"alc/uiddefs.cpp",
 		"alc/mixer/defs.h",
 		"alc/mixer/hrtfbase.h",
-		"alc/mixer/mixer_c.cpp"
+		"alc/mixer/mixer_c.cpp",
+		"alc/mixer/mixer_sse.cpp"
 	}
 
 	includedirs
@@ -123,6 +131,14 @@ project "OpenAL"
 	{
 		"AL_LIBTYPE_STATIC",
 		"AL_ALEXT_PROTOTYPES"
+	}
+
+	links
+	{
+		"OpenAL.framework",
+		"AudioUnit.framework",
+		"AudioToolbox.framework",
+		"CoreAudio.framework"
 	}
 
 	filter "system:macosx"
