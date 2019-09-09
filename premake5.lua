@@ -1,6 +1,6 @@
 project "OpenAL"
 	kind "StaticLib"
-	language "CPP"
+	language "c++"
 	cppdialect "c++17"
 
 	
@@ -114,8 +114,11 @@ project "OpenAL"
 		"include"
 	}
 
-	filter "system:windows"
+	filter "system:macosx"
 		systemversion "latest"
+		defines
+		{
+		}
 
 	filter "configurations:Debug"
 		runtime "Debug"
