@@ -64,13 +64,6 @@ project "OpenAL"
 		"alc/bformatdec.h",
 		"alc/bs2b.cpp",
 		"alc/bs2b.h",
-		-- MACOSX
-		"alc/backends/base.cpp",
-		"alc/backends/coreaudio.cpp",
-		"alc/backends/loopback.cpp",
-		"alc/backends/wave.cpp",
-		"alc/backends/null.cpp",
-		-- END MACOSX
 		"alc/compat.h",
 		"alc/converter.cpp",
 		"alc/converter.h",
@@ -143,8 +136,26 @@ project "OpenAL"
 
 	filter "system:macosx"
 		systemversion "latest"
-		defines
+		includedirs
 		{
+			"include_mac"
+		}
+		files
+		{
+			-- MACOSX
+			"alc/backends/base.cpp",
+			"alc/backends/coreaudio.cpp",
+			"alc/backends/loopback.cpp",
+			"alc/backends/wave.cpp",
+			"alc/backends/null.cpp",
+			-- END MACOSX
+		}
+
+	filter "system:windows"
+		systemversion "latest"
+		includedirs
+		{
+			"include_windows"
 		}
 
 	filter "configurations:Debug"
