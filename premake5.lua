@@ -1,7 +1,7 @@
 project "OpenAL"
 	kind "StaticLib"
 	language "c++"
-	cppdialect "c++17"
+	cppdialect "c++11"
 
 	
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -106,12 +106,23 @@ project "OpenAL"
 		"alc/uiddefs.cpp",
 		"alc/mixer/defs.h",
 		"alc/mixer/hrtfbase.h",
-		"alc/mixer/mixer_c.cpp",
+		"alc/mixer/mixer_c.cpp"
 	}
 
 	includedirs
 	{
-		"include"
+		"include",
+		"",
+		"al",
+		"alc",
+		"common",
+		"router"
+	}
+
+	defines
+	{
+		"AL_LIBTYPE_STATIC",
+		"AL_ALEXT_PROTOTYPES"
 	}
 
 	filter "system:macosx"
