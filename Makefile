@@ -28,7 +28,7 @@ ifeq ($(origin AR), default)
   AR = ar
 endif
 DEFINES += -DAL_LIBTYPE_STATIC -DAL_ALEXT_PROTOTYPES
-INCLUDES += -Iinclude -I. -Ial -Ialc -Icommon -Irouter
+INCLUDES += -Iinclude -I. -Ial -Ialc -Icommon -Irouter -Iinclude_mac
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MMD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
@@ -113,6 +113,8 @@ OBJECTS += $(OBJDIR)/loopback.o
 OBJECTS += $(OBJDIR)/mastering.o
 OBJECTS += $(OBJDIR)/mixer_c.o
 OBJECTS += $(OBJDIR)/mixer_sse.o
+OBJECTS += $(OBJDIR)/mixer_sse2.o
+OBJECTS += $(OBJDIR)/mixer_sse41.o
 OBJECTS += $(OBJDIR)/mixvoice.o
 OBJECTS += $(OBJDIR)/modulator.o
 OBJECTS += $(OBJDIR)/nfc.o
@@ -319,6 +321,12 @@ $(OBJDIR)/mixer_c.o: alc/mixer/mixer_c.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/mixer_sse.o: alc/mixer/mixer_sse.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/mixer_sse2.o: alc/mixer/mixer_sse2.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/mixer_sse41.o: alc/mixer/mixer_sse41.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/mixvoice.o: alc/mixvoice.cpp

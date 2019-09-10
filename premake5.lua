@@ -107,7 +107,9 @@ project "OpenAL"
 		"alc/mixer/defs.h",
 		"alc/mixer/hrtfbase.h",
 		"alc/mixer/mixer_c.cpp",
-		"alc/mixer/mixer_sse.cpp"
+		"alc/mixer/mixer_sse.cpp",
+		"alc/mixer/mixer_sse2.cpp",
+		"alc/mixer/mixer_sse41.cpp"
 	}
 
 	includedirs
